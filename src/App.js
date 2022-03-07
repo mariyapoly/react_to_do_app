@@ -1,23 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
 
 function App() {
+  const [input, setInput] = useState([]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const handleAddBtn = (e) => {
+    setInput([...input, input.length + 1]);
+    // setInput([]);
+  };
+
+  console.log(input);
+
+  // console.log(input);
+
+  const handleDelete = (id) => {
+    const remainingData = input.filter((item, index) => {
+      console.log(index, id);
+      return index !== id;
+    });
+    setInput(remainingData);
+    console.log(remainingData);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Hello</h1>
+
+      <div className="form-wrapper">
+        <form onSubmit={handleSubmit}>
+          <div className="input-wrapper">
+            {input.length === 0 ? (
+              <div className="todo-output">
+                <input type="text" placeholder="name" />
+                <button onClick={handleAddBtn}>add</button>
+                <button>remove</button>
+              </div>
+            ) : (
+              <>
+                {input.map((item, index) => (
+                  <div className="todo-output" key={index}>
+                    <input type="text" placeholder="name" defaultValue={item} />
+                    <button onClick={handleAddBtn}>add</button>
+                    <button onClick={() => handleDelete(index)}>remove</button>
+                  </div>
+                ))}
+              </>
+            )}
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
